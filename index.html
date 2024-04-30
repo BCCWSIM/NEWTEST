@@ -7,10 +7,11 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
-
-
 
 <!-- Header with image -->
 <header class="bgimg w3-display-container w3-min" id="home">
@@ -23,7 +24,7 @@
         <img src="https://lh3.googleusercontent.com/d/19bi1iNE8JYD1kVJ3nGH0YevbPh-sdQ9b" class="logo1">
     </div>
     <div class="text-container">
-        <span class="w3-text-white" >Simulation<br>Program</span>
+        <span class="w3-text-white" >Simulation Program</span>
     </div>
 </div>
   <div class="w3-display-bottomright w3-center w3-padding-large">
@@ -46,14 +47,14 @@
       <a  id="reviewButton" class="w3-button w3-block w3-black">REVIEW<br>SELECTION</a>      
     </div>
     <div class="w3-col s3">
-      <a id="exportButton" class="w3-button w3-block w3-black"></a>
+      <a id="exportAndEmailButton" class="w3-button w3-block w3-black">SUBMIT<br>REQUEST</a>
     </div>
   </div>
 </div>
 
   
 <!-- Menu Container -->
-<div class="w3-container" id="menu">
+<div class="w3-container" id="menu" style="position: relative;">
   <div class="w3-content" style="max-width:1200px">
    
     <div class="w3-row w3-center w3-card w3-padding">
@@ -67,8 +68,13 @@
 <!-- Resources Tab -->
     <div id="Eat" class="w3-container menu w3-padding w3-card">
 
-    <select id="categoryDropdown" multiple></select>
-    <select id="subcategoryDropdown" multiple></select>
+<!--     <select id="categoryDropdown" multiple></select>
+    <select id="subcategoryDropdown" multiple></select> -->
+<div style="display: flex; justify-content: space-between;">
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for SKU..">
+  <!-- Unique Code -->
+  <div id="uniqueCode" style="margin: 5px; padding: 10px; background: #f0f0f0; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);"></div>
+</div>
 
     <table id="csvTable">
         <!-- The CSV data will be displayed here -->
@@ -101,5 +107,6 @@
 
 <!-- End page content -->
 </div>
+
 </body>
 </html>
