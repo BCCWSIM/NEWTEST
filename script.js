@@ -1,20 +1,41 @@
 window.onbeforeunload = () => window.scrollTo(0, 0);
-window.onload = toggleView;
+
+// Store DOM elements in variables
+var uniqueCodeElement = document.getElementById('uniqueCode');
+var firstTabLink = document.getElementsByClassName("tablink")[0];
+
+window.onload = function() {
+  toggleView();
+
+  // Generate unique code
+  var uniqueCode = new Date().getTime();
+  uniqueCode = String(uniqueCode).substr(-5); // get the last 5 digits
+
+  // Update DOM elements
+  uniqueCodeElement.textContent = uniqueCode;
+  firstTabLink.click(); // Simulate a click on the first tab
+}
+
 
 let items = [];
 let sortDirection = [];
 let selectedItems = new Set();
-let isTableView = true;
+let isTableView = false;
+let headers; // We'll define this after fetching the CSV data
+let skuIndex; // We'll define this after fetching the CSV data
 
 document.getElementById('toggleViewButton').addEventListener('click', toggleView);
-document.getElementById('exportButton').addEventListener('click', exportCSV);
 document.getElementById('clearSelectionButton').addEventListener('click', clearSelection);
 document.getElementById('reviewButton').addEventListener('click', reviewSelection);
+// Add event listener to your button
+document.getElementById('exportAndEmailButton').addEventListener('click', exportAndEmail);
 
 fetch('Resources.csv')
     .then(response => response.text())
     .then(csvData => {
         items = csvData.split('\n').map(row => row.split(','));
+        headers = items[0]; // Now we can define 'headers'
+        skuIndex = headers.indexOf('SKU'); // Now we can define 'skuIndex'
         sortDirection = new Array(items[0].length).fill(1);
         displayTable(items);
     })
@@ -43,19 +64,16 @@ function displayTable(data) {
     table.innerHTML = '';
 
     const headerRow = document.createElement('tr');
-    headerRow.appendChild(document.createElement('th')); 
-    // Add an empty header for the checkbox column
     data[0].forEach((cell, index) => {
         const th = document.createElement('th');
         th.classList.add('header');
-        th.style.textAlign = 'right'; // Align content to the right
-        th.addEventListener('click', () => sortData(index)); // Attach event listener to the entire header cell
         const span = document.createElement('span');
         span.textContent = cell;
         th.appendChild(span);
         const arrow = document.createElement('span');
         arrow.textContent = ' ↑↓';
         arrow.classList.add('arrow');
+        arrow.addEventListener('click', () => sortData(index));
         th.appendChild(arrow);
         headerRow.appendChild(th);
     });
@@ -63,23 +81,6 @@ function displayTable(data) {
 
     for (let i = 1; i < data.length; i++) {
         const dataRow = document.createElement('tr');
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.classList.add('row-checkbox');
-        checkbox.checked = selectedItems.has(data[i].join(','));
-        checkbox.addEventListener('change', () => {
-            if (checkbox.checked) {
-                dataRow.classList.add('selected');
-                selectedItems.add(data[i].join(','));
-            } else {
-                dataRow.classList.remove('selected');
-                selectedItems.delete(data[i].join(','));
-            }
-            updateClearSelectionButton();
-        });
-        const checkboxCell = document.createElement('td');
-        checkboxCell.appendChild(checkbox);
-        dataRow.appendChild(checkboxCell);
         data[i].forEach((cell, cellIndex) => {
             const td = document.createElement('td');
             if (cellIndex === 0) {
@@ -97,6 +98,18 @@ function displayTable(data) {
             dataRow.classList.add('selected');
         }
         table.appendChild(dataRow);
+
+        // Add click event to the row
+        dataRow.addEventListener('click', () => {
+            if (selectedItems.has(data[i].join(','))) {
+                dataRow.classList.remove('selected');
+                selectedItems.delete(data[i].join(','));
+            } else {
+                dataRow.classList.add('selected');
+                selectedItems.add(data[i].join(','));
+            }
+            updateClearSelectionButton();
+        });
     }
 }
 
@@ -160,72 +173,6 @@ function updateClearSelectionButton() {
 }
 
 
-function displayTable(data) {
-    const table = document.getElementById('csvTable');
-    table.innerHTML = '';
-
-    const headerRow = document.createElement('tr');
-    headerRow.appendChild(document.createElement('th')); 
-    
-    // Add an empty header for the checkbox column
-    data[0].forEach((cell, index) => {
-        const th = document.createElement('th');
-        th.classList.add('header');
-        const span = document.createElement('span');
-        span.textContent = cell;
-        th.appendChild(span);
-        const arrow = document.createElement('span');
-        arrow.textContent = ' ↑↓';
-        arrow.classList.add('arrow');
-        arrow.addEventListener('click', () => sortData(index));
-        th.appendChild(arrow);
-        headerRow.appendChild(th);
-    });
-    table.appendChild(headerRow);
-
-    for (let i = 1; i < data.length; i++) {
-        const dataRow = document.createElement('tr');
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.classList.add('row-checkbox');
-        checkbox.checked = selectedItems.has(data[i].join(','));
-        const checkboxCell = document.createElement('td');
-        checkboxCell.appendChild(checkbox);
-        dataRow.appendChild(checkboxCell);
-        data[i].forEach((cell, cellIndex) => {
-            const td = document.createElement('td');
-            if (cellIndex === 0) {
-                const img = document.createElement('img');
-                img.src = cell;
-                img.alt = 'Thumbnail';
-                img.classList.add('thumbnail');
-                td.appendChild(img);
-            } else {
-                td.textContent = cell;
-            }
-            dataRow.appendChild(td);
-        });
-        if (selectedItems.has(data[i].join(','))) {
-            dataRow.classList.add('selected');
-        }
-        table.appendChild(dataRow);
-
-        // Add click event to the row
-        dataRow.addEventListener('click', (event) => {
-            if (event.target.type !== 'checkbox') {
-                checkbox.checked = !checkbox.checked;
-                if (checkbox.checked) {
-                    dataRow.classList.add('selected');
-                    selectedItems.add(data[i].join(','));
-                } else {
-                    dataRow.classList.remove('selected');
-                    selectedItems.delete(data[i].join(','));
-                }
-                updateClearSelectionButton();
-            }
-        });
-    }
-}
 
 function toggleView() {
     isTableView = !isTableView;
@@ -298,18 +245,55 @@ function displayGallery(data) {
         gallery.appendChild(div);
     }
 }
-function exportCSV() {
-    const title = document.getElementById('titleInput').value;
-    const contactPerson = document.getElementById('contactPersonInput').value;
-    const startDateTime = document.getElementById('startDateTimeInput').value;
-    const endDateTime = document.getElementById('endDateTimeInput').value;
-    const selectedRows = Array.from(selectedItems).map(item => item.split(','));
-    const csvContent = 'data:text/csv;charset=utf-8,' + `Title,${title}\nContact Person,${contactPerson}\nStart Date & Time,${startDateTime}\nEnd Date & Time,${endDateTime}\nNumber of Items Selected,${selectedRows.length}\n` + [items[0], ...selectedRows].map(e => e.join(',')).join('\n');
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', 'export.csv');
-    document.body.appendChild(link); // Required for Firefox
-    link.click();
-}
+function myFunction() {
+  var input, filter, table, tr, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("csvTable");
+  tr = table.getElementsByTagName("tr");
 
+  for (i = 0; i < tr.length; i++) {
+    let tdSku = tr[i].getElementsByTagName("td")[skuIndex];
+    if (tdSku) {
+      let txtValueSku = tdSku.textContent || tdSku.innerText;
+      if (txtValueSku.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+function exportAndEmail() {
+    // Get selected items and unique ID
+    const selectedData = []; // Don't include headers here
+    let uniqueCode = document.getElementById('uniqueCode').textContent;
+    for (let i = 1; i < items.length; i++) { // Start from 1 to exclude headers
+        if (selectedItems.has(items[i].join(','))) {
+            selectedData.push(items[i]);
+        }
+    }
+
+    // Filter out only SKU and Title columns
+    const titleIndex = headers.indexOf('Title');
+    const skuIndex = headers.indexOf('SKU');
+    const filteredData = selectedData.map(row => [row[skuIndex], row[titleIndex]]); // SKU first, then Title
+
+    // Format CSV as plain text table for email body
+    let table = '';
+    filteredData.forEach(row => {
+        table += `${row[0]}\t${row[1]}\n`; // SKU first, then Title
+    });
+
+    // Create PDF
+    let doc = new jsPDF();
+    doc.text(table, 10, 10);
+    doc.save('data.pdf');
+
+    // Send email
+    let subject = encodeURIComponent('Event: ' + uniqueCode);
+    let body = encodeURIComponent('ID: ' + uniqueCode + '\n\n' + table);
+    let startTime = '20240101T080000Z'; // Replace with your start time
+    let endTime = '20240101T090000Z'; // Replace with your end time
+    window.open('mailto:cwsimulation@cw..bc.ca?subject=' + subject + '&body=' + body + '&start=' + startTime + '&end=' + endTime);
+}
