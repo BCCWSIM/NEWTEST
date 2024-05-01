@@ -8,8 +8,10 @@ window.onload = function() {
   toggleView();
 
   // Generate unique code
-  var uniqueCode = new Date().getTime();
-  uniqueCode = String(uniqueCode).substr(-5); // get the last 5 digits
+  var year = new Date().getFullYear();
+  var lastDigit = year % 10;
+  var secondLetter = String.fromCharCode(65 + lastDigit); // ASCII value of 'A' is 65
+  var uniqueCode = 'E' + secondLetter;
 
   // Update DOM elements
   uniqueCodeElement.textContent = uniqueCode;
