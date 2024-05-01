@@ -11,7 +11,8 @@ window.onload = function() {
   var year = new Date().getFullYear();
   var lastDigit = year % 10;
   var secondLetter = String.fromCharCode(65 + lastDigit); // ASCII value of 'A' is 65
-  var uniqueCode = 'E' + secondLetter;
+  var randomNumber = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
+  var uniqueCode = 'E' + secondLetter + randomNumber;
 
   // Update DOM elements
   uniqueCodeElement.textContent = uniqueCode;
