@@ -10,7 +10,7 @@ window.onload = function() {
   // Generate unique code
   var year = new Date().getFullYear();
   var lastDigit = year % 10;
-  var secondLetter = String.fromCharCode(65 + lastDigit); // ASCII value of 'A' is 65
+  var secondLetter = String.fromCharCode(64 + lastDigit); // ASCII value of 'A' is 65
   var randomNumber = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
   var uniqueCode = 'E' + secondLetter + randomNumber;
 
