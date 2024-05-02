@@ -9,8 +9,8 @@ function generateUniqueCode() {
     var yearEndNumber = new Date().getFullYear().toString().substr(-1); // Last digit of the current year
     var mapping = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J'}; // Mapping numbers to letters
     var secondChar = mapping[yearEndNumber]; // Second character based on the last digit of the current year
-    var randomNum = Math.floor(Math.random() * 100); // Random number between 0 and 99
-    return 'E' + secondChar + timestamp.toString().substr(-4) + randomNum.toString().padStart(2, '0');
+    var randomNum = Math.floor(Math.random() * 10000); // Random number between 0 and 9999
+    return 'E' + secondChar + randomNum.toString().padStart(4, '0');
 }
 
 function updateDOM(uniqueCode) {
@@ -24,7 +24,6 @@ window.onload = function() {
   var uniqueCode = generateUniqueCode();
   window.requestAnimationFrame(() => updateDOM(uniqueCode));
 }
-
 
 
 let items = [];
