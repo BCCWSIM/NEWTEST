@@ -1,23 +1,5 @@
-window.onbeforeunload = () => window.scrollTo(0, 0);
-
-// Store DOM elements in variables
-var uniqueCodeElement = document.getElementById('uniqueCode');
-var firstTabLink = document.getElementsByClassName("tablink")[0];
-
-function generateUniqueCode() {
-  // Generate unique code
-  var year = new Date().getFullYear();
-  var lastDigit = year % 10;
-  var secondLetter = String.fromCharCode(64 + lastDigit); // ASCII value of 'A' is 65
-  var randomNumber = Math.floor(10000 + Math.random() * 90000); // generates a 5-digit random number
-  return 'E' + secondLetter + randomNumber;
-}
-
-function updateDOM(uniqueCode) {
-  // Update DOM elements
-  uniqueCodeElement.textContent = uniqueCode;
-  firstTabLink.click(); // Simulate a click on the first tab
-}
+// Minified version of your JavaScript code
+!function(){var e=document.getElementById("uniqueCode"),n=document.getElementsByClassName("tablink")[0];function t(){var t=new Date().getFullYear()%10,r=String.fromCharCode(64+t),o=Math.floor(1e4+9e4*Math.random());return"E"+r+o}window.onload=function(){var r=t();e.textContent=r,n.click()},window.onbeforeunload=function(){window.scrollTo(0,0)}}();
 
 window.onload = function() {
   toggleView();
