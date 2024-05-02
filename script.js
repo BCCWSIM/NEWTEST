@@ -6,10 +6,12 @@ var firstTabLink = document.getElementsByClassName("tablink")[0];
 
 function generateUniqueCode() {
     var timestamp = Date.now(); // Current time in milliseconds
+    var yearEndNumber = new Date().getFullYear().toString().substr(-1); // Last digit of the current year
+    var mapping = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J'}; // Mapping numbers to letters
+    var secondChar = mapping[yearEndNumber]; // Second character based on the last digit of the current year
     var randomNum = Math.floor(Math.random() * 100); // Random number between 0 and 99
-    return timestamp.toString().substr(-4) + randomNum.toString().padStart(2, '0');
+    return 'E' + secondChar + timestamp.toString().substr(-4) + randomNum.toString().padStart(2, '0');
 }
-
 
 function updateDOM(uniqueCode) {
   // Update DOM elements
