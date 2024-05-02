@@ -1,5 +1,21 @@
-// Minified version of your JavaScript code
-!function(){var e=document.getElementById("uniqueCode"),n=document.getElementsByClassName("tablink")[0];function t(){var t=new Date().getFullYear()%10,r=String.fromCharCode(64+t),o=Math.floor(1e4+9e4*Math.random());return"E"+r+o}window.onload=function(){var r=t();e.textContent=r,n.click()},window.onbeforeunload=function(){window.scrollTo(0,0)}}();
+window.onbeforeunload = () => window.scrollTo(0, 0);
+
+// Store DOM elements in variables
+var uniqueCodeElement = document.getElementById('uniqueCode');
+var firstTabLink = document.getElementsByClassName("tablink")[0];
+
+function generateUniqueCode() {
+    var timestamp = Date.now(); // Current time in milliseconds
+    var randomNum = Math.floor(Math.random() * 100); // Random number between 0 and 99
+    return timestamp.toString().substr(-4) + randomNum.toString().padStart(2, '0');
+}
+
+
+function updateDOM(uniqueCode) {
+  // Update DOM elements
+  uniqueCodeElement.textContent = uniqueCode;
+  firstTabLink.click(); // Simulate a click on the first tab
+}
 
 window.onload = function() {
   toggleView();
