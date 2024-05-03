@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', (event) => {
+    initializePage();
+});
+
 window.onbeforeunload = () => window.scrollTo(0, 0);
 
 // Store DOM elements in variables
@@ -24,10 +28,6 @@ function initializePage() {
   var uniqueCode = generateUniqueCode();
   window.requestAnimationFrame(() => updateDOM(uniqueCode));
 }
-
-// Ensure the page is initialized every time it's loaded or focused
-window.onload = initializePage;
-window.onfocus = initializePage;
 
 let items = [];
 let sortDirection = [];
