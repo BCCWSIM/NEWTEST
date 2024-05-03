@@ -19,12 +19,15 @@ function updateDOM(uniqueCode) {
   firstTabLink.click(); // Simulate a click on the first tab
 }
 
-window.onload = function() {
+function initializePage() {
   toggleView();
   var uniqueCode = generateUniqueCode();
   window.requestAnimationFrame(() => updateDOM(uniqueCode));
 }
 
+// Ensure the page is initialized every time it's loaded or focused
+window.onload = initializePage;
+window.onfocus = initializePage;
 
 let items = [];
 let sortDirection = [];
