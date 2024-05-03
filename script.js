@@ -1,12 +1,8 @@
-document.addEventListener('DOMContentLoaded', (event) => {
-    initializePage();
-});
-
 window.onbeforeunload = () => window.scrollTo(0, 0);
 
 // Store DOM elements in variables
-var uniqueCodeElement = document.getElementById('uniqueCode');
-var firstTabLink = document.getElementsByClassName("tablink")[0];
+var uniqueCodeElement;
+var firstTabLink;
 
 function generateUniqueCode() {
     var timestamp = Date.now(); // Current time in milliseconds
@@ -24,10 +20,15 @@ function updateDOM(uniqueCode) {
 }
 
 function initializePage() {
+  uniqueCodeElement = document.getElementById('uniqueCode');
+  firstTabLink = document.getElementsByClassName("tablink")[0];
   toggleView();
   var uniqueCode = generateUniqueCode();
   window.requestAnimationFrame(() => updateDOM(uniqueCode));
 }
+
+// Ensure the page is initialized every time it's loaded
+document.addEventListener('DOMContentLoaded', initializePage);
 
 let items = [];
 let sortDirection = [];
