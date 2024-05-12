@@ -45,6 +45,7 @@ fetch('Resources.csv')
         skuIndex = headers.indexOf('SKU');
         sortDirection = new Array(items[0].length).fill(1);
         displayTable(items);
+        toggleView(); // Add this line
     })
     .catch(error => console.error('Error fetching CSV:', error));
 
@@ -494,3 +495,15 @@ function sendEmail(table) {
     let body = encodeURIComponent('ID: ' + uniqueCode + '\n\n' + table);
     window.open('mailto:cwsimulation@cw.bc.ca?subject=' + subject + '&body=' + body);
 }
+
+document.getElementById('fullScreenButton').addEventListener('click', function() {
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+        document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+        document.documentElement.msRequestFullscreen();
+    }
+});
