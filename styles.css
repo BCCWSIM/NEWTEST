@@ -6,9 +6,9 @@ body, html {
 .bgimg {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; /* Changed from 'fill' */
     background: url("https://lh3.googleusercontent.com/d/1VwfM71ruMmg1vgBlXYUSoCTc8NzXdzyl") no-repeat center center;
-    background-size: auto 100%;
+    background-size: cover; /* Changed from 'auto 100%' */
     min-height: 70%;
 }
 
