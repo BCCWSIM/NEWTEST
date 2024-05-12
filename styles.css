@@ -1,107 +1,293 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>CW Resources</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
+body, html {
+    height: 100%;
+    font-family: "Inconsolata", "Arial", sans-serif;
+}
 
-<!-- Header with image -->
-<div>
-  <a id="fullScreenButton" class="w3-button w3-block w3-black">FULL SCREEN</a>
-</div>
-<header class="bgimg w3-display-container w3-min" id="home">
-  <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
-<!--     <span class="w3-tag">Open from 8am to 4pm</span> -->
-  </div>
-  <div class="logo-img-title-container">
-    <div class="logo-container">
-      <img src="https://lh3.googleusercontent.com/d/1pycErU1dgRNfZEFXBJToLkj5mVqSkFjb" class="logo1">
-      <img src="https://lh3.googleusercontent.com/d/19bi1iNE8JYD1kVJ3nGH0YevbPh-sdQ9b" class="logo1">
-    </div>
-    <div class="text-container">
-        <span class="w3-text-white">Simulation Program</span>
-    </div>
-    <div class="input-details">
-        <input type="text" id="titleInput" placeholder="Session Title">
-        <input type="datetime-local" id="dateTimeStartInput">
-        <input type="number" id="durationInput" placeholder="hours">
-        <input type="datetime-local" id="dateTimeEndInput">
-        <input type="text" id="referenceInput" placeholder="Reference">
-    </div>
-</div>
-<div class="checkbox-group">
-  <input type="checkbox" id="checkbox1">
-  <label for="checkbox1">Checkbox 1</label>
+.bgimg {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Changed from 'fill' */
+    background: url("https://lh3.googleusercontent.com/d/1VwfM71ruMmg1vgBlXYUSoCTc8NzXdzyl") no-repeat center center;
+    background-size: cover; /* Changed from 'auto 100%' */
+    min-height: 70%;
+}
 
-  <input type="checkbox" id="checkbox2">
-  <label for="checkbox2">Checkbox 2</label>
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: calc(100% - 50px); /* Adjust as needed */
+}
 
-  <input type="checkbox" id="checkbox3">
-  <label for="checkbox3">Checkbox 3</label>
-</div>
+.logo-img-title-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column; /* Change from row to column */
+}
 
+.input-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.checkbox-group input[type="checkbox"] {
+    display: none;
+  }
+  
+  .checkbox-group label {
+    display: inline-block;
+    padding: 0.5em 1em;
+    margin: 0.5em;
+    cursor: pointer;
+    border: 1px solid #999999;
+    border-radius: 5px;
+  }
+  
+  .checkbox-group input[type="checkbox"]:checked + label {
+    background-color: #007bff;
+    color: #ffffff;
+    border-color: #007bff;
+  }
 
-</header>
+.logo-container {
+    display: flex;
+    flex-direction: row; /* Change this from column to row */
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
 
-<!-- Add a background color and large text to the whole page -->
-
-<!-- Menu Container -->
-<div class="w3-container" id="menu" style="position: relative;">
-  <div class="w3-content" style="max-width:1200px">
-    <div class="w3-row w3-center w3-card w3-padding">
-
-    <div class="menu-bar">
-      <!-- Links (sit on top) -->
-      <div class="w3">
-        <div class="w3-row w3-padding w3-black">
-          <div class="w3-col s3">
-            <a id="toggleViewButton" class="w3-button w3-block w3-black">VIEW</a>
-          </div>
-          <div class="w3-col s3">
-            <a id="clearSelectionButton" class="w3-button w3-block w3-black">CLEAR</a>
-          </div>
-          <div class="w3-col s3">
-            <a id="reviewButton" class="w3-button w3-block w3-black">REVIEW</a>      
-          </div>
-          <div class="w3-col s3">
-            <a id="exportAndEmailButton" class="w3-button w3-block w3-black">SEND</a>
-          </div>
-        </div>
-      </div>
-    
-      <div style="display: flex; justify-content: space-between;">
-        <input type="text" id="myInput" onkeyup="liveSearch()" placeholder="Search...">
-        <div id="selectContainer"></div>
-        <!-- Unique Code -->
-        <div id="uniqueCode" style="display: none; margin: 5px; padding: 10px; background: #f0f0f0; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);"></div>
-      </div>
-
-      <table id="csvTable">
-          <!-- The CSV data will be displayed here -->
-      </table>
-      <div id="csvGallery" style="display: none;">
-          <!-- The CSV data will be displayed here in gallery view -->
-      </div>
-    </div>
+.logo1, .logo2 {
+    flex: 1;
+    max-width: 100%;
+    max-height: 100px;  
+    width: auto;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.60);
+    padding: 1px;
+    border-radius: 15px;
+    margin: 10px;
+    object-fit: contain;
+}
 
 
-    <img src="https://lh3.googleusercontent.com/d/1VS3MFi4Vhg2PPvM6TD7zUi24WpfGKniw" style="width:100%;max-width:1200px" class="w3-margin-top"">
-  </div>
-</div>
+.text-container {
+    text-align: center;
+    width: 100%;
+    max-width: 1000px;
+    align-self: center;
+}
 
-<!-- End page content -->
-</div>
+.text-container span {
+    font-size: calc(1vw + 1vh + 1vmin); 
+    color: white;
+}
 
-<!-- External scripts and stylesheets -->
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
-<script src="script.js"></script>
+.menu {
+    display: none;
+}
 
-</body>
-</html>
+body {
+    background: #EDEDED;
+}
+
+#csvTable, #csvGallery {
+    display: block;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 60%;
+    max-height: 400px;
+    border-radius: 15px;
+    align: center;
+    z-index: 999;
+    object-fit: scale-down;
+    padding-bottom: 10px;
+}
+
+#csvTable .thumbnail {
+    max-height: 180px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    color: Black;
+    font-size: 1.5vw;
+}
+
+@media (max-width: 600px) {
+    th, td {
+        font-size: 10px;
+    }
+}
+
+@media (min-width: 100%) {
+    th, td {
+        font-size: 1.5vw;
+    }
+}
+
+.arrow {
+    user-select: none;
+    cursor: pointer;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    background-color: #0f426a;
+    z-index: 1000;
+    color: #ffffff;
+}
+
+.selected {
+    background-color: lightgreen;
+}
+
+input[type=text],
+input[type=datetime-local],
+input[type=number] {
+    max-width: 375px;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    text-align: center;
+}
+
+input[type=text]:focus,
+input[type=datetime-local]:focus,
+input[type=number]:focus {
+    border: 5px solid #555;
+}
+
+label {
+    display: block;
+    margin-top: 20px;
+}
+
+button {
+    font-weight: bold;
+    background-color: #add8e6;
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+button:hover {
+    background-color: #87ceeb;
+}
+
+button:active {
+    outline: none;
+    box-shadow: 0 0 0 2px #000;
+}
+
+
+
+#csvGallery, .csvGallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 10px;
+    width: calc(33% - 20px);
+    border-radius: 15px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+}
+
+
+.card.selected {
+    background-color: lightgreen;
+}
+
+.card > div {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: auto;
+}
+
+.card > div > .sku {
+    align-self: center;
+    margin: 0; /* No margin */
+    padding: 0; /* No padding */
+    font-size: 0.7em;
+    order: 3; /* Change order to 3 to make it appear at the bottom */
+    margin-bottom: 0;
+}
+
+.card > div > .title {
+    text-align: center;
+    order: 0;
+    font-size: 1.2em;
+}
+
+.card > div > .quantity-input {
+    align-self: center;
+    width: 50%;
+    padding: 5px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    order: 1;
+    text-align: center;
+}
+
+.card > div > .quantity-container {
+    align-self: flex-end;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+}
+.quantity-container {
+    text-align: center;
+    font-size: 0.8em;
+}
+
+iframe {
+    transform: scale(0.8);
+    transform-origin: 0 0;
+}
+
+.header-menu-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.menu-bar {
+    position: sticky;
+
+}
